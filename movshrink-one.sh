@@ -39,10 +39,10 @@ echo ""
 let grep_result=1
 while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
     # https://stackoverflow.com/questions/11283625/overwrite-last-line-on-terminal
-    echo -e "\r\033[1A\033[0K $(grep 'out_time=' ${logfile} | tail -n 1) $(grep speed ${logfile} | tail -n 1)"
+    echo -e "\r\033[1A\033[0K:: $(grep 'out_time=' ${logfile} | tail -n 1) $(grep speed ${logfile} | tail -n 1)"
     grep 'progress=end' ${logfile} > /dev/null 2>&1
     let grep_result=$?
-    sleep 5
+    sleep 2
 done
 
 grep 'progress=end' ${logfile} > /dev/null 2>&1

@@ -23,4 +23,4 @@ version of the original file will be created.  The wrapper will then delete the 
 - Add capability to tidy up after itself
 - Add arch build files
 - Improve handling of command line options
-- Add capability to tidy up and exit gracefully upon recieving CTRL-C interrupts
+- Add capability to tidy up and exit gracefully upon receiving CTRL-C interrupts
