@@ -109,7 +109,7 @@ for FILE in *; do
             echo ":: compressing ${FILE}..."
             let counter=counter+1
 
-            ./mvswatchgo.sh ${FILE}
+            movshrink-one ${FILE}
             
             if [ $? -eq 0 ]; then
                 if [ -f "${MP4filename}" ]; then
