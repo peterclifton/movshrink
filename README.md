@@ -16,3 +16,11 @@ version of the original file will be created.  The wrapper will then delete the 
 
 -  `$ movshrink`: Attempt to compress any files with .MOV suffix in the CWD. Original files will be deleted.
 -  `$ movshrink -t`: Attempt to compress files with .MOV suffix in the CWD, stop after 5 files have been compressed. Original files will be deleted.
+
+## TODO
+
+- Improve interface output appearance
+- Add capability to tidy up after itself
+- Add arch build files
+- Improve handling of command line options
+- Add capability to tidy up and exit gracefully upon recieving CTRL-C interrupts
