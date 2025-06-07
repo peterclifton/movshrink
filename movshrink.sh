@@ -1,5 +1,5 @@
 #!/bin/bash
-# usage example: movshrinker -t
+# usage example: movshrink -t
 
 # --------------------
 # Functions
@@ -16,7 +16,7 @@ help () {
     cat <<EOF
 :: This program will attempt to compress any .mov
    file in the current working directory.
-   And delete the orignal.
+   And delete the original.
    Use at own risk!
 EOF
 }
@@ -26,7 +26,7 @@ get_response () {
     # offer for user to exit before proceeding
     cat <<EOF
 :: This program will attempt to compress any .mov file in the current working directory.
-   And delete the orignal (if -x was given as the second command line argument)
+   And delete the original (if -x was given as the second command line argument)
    Use at own risk!
 
    Current working directory is: ${PWD}

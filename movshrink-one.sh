@@ -6,7 +6,7 @@
 
 get_vid_length () {
     # usage: get_vid_length somevideo.MOV
-    # e.g: ffprobe -i VID_20191205_002640.MOV -show_entries format=duration -v quiet -of csv="p=0"
+    # e.g: ffprobe -i somevideo.MOV -show_entries format=duration -v quiet -of csv="p=0"
     echo "$(ffprobe -i $1 -show_entries format=duration -v quiet -of csv="p=0")"
 }
 
