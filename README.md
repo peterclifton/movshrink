@@ -1,5 +1,7 @@
 # movshrink
 
+Wrapper shell script that uses ffmpeg to compress MOV files
+
 This program will attempt to compress any *.MOV* file in the current working directory.
 And delete the original. Use at own risk!
 
@@ -24,3 +26,4 @@ version of the original file will be created.  The wrapper will then delete the 
 - Add arch build files
 - Improve handling of command line options
 - Add capability to tidy up and exit gracefully upon receiving CTRL-C interrupts
+- Change the result message to be more readable
