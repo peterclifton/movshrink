@@ -25,9 +25,8 @@ let response='N'
 get_response () {
     # offer for user to exit before proceeding
     cat <<EOF
-:: This program will attempt to compress any .mov
-   file in the current working directory.
-   And delete the orignal.
+:: This program will attempt to compress any .mov file in the current working directory.
+   And delete the orignal (if -x was given as the second command line argument)
    Use at own risk!
 
    Current working directory is: ${PWD}
@@ -56,38 +55,54 @@ check_before_proceeding () {
     fi
 }
 
-# --------------------
-# Main logic
-# -------------------
 
-mode="N"
-limit_to_10="n"
+# Deal with first command line argument
+# -------------------------------------
 
-# expects -h or -v as options in $1 or else no options
+mode="U"
+limit_to_5="n"
+
+# expects -h, -u, -t as options in $1 or else no options
 
 if [ -n "$1" ]; then  # i.e. an command line argument has been provided
     case "$1" in
         -h) mode="H" ;; # will just print a help string
-        -t) mode="T" ;; # verbose mode
-        *) echo "::Option $1 not recognised, exiting";exit 1;
+        -t) mode="T" ;; # limit to 5 iterations
+        -u) mode="U" ;; # loop through all MOV files found in CWD
+        *) echo ":: Option $1 not recognised, exiting"; exit 1;
     esac
 fi
-
-#echo "MODE=${mode}"
 
 if  [ $mode = "H" ]; then # help mode
     help
     exit 0
 
-elif [ $mode = "N" ]; then # normal (default mode) 
-    :
-    #echo "Normal"
+elif [ $mode = "U" ]; then # unlimited mode (default mode) 
+    ;
 
-elif [ $mode = "T" ]; then # verbose mode
-    #echo "Verbose"
-    limit_to_10="Y"
+elif [ $mode = "T" ]; then # limited mode (limit to 5 iterations
+    limit_to_5="Y" 
 fi
 
+# Deal with second command line argument
+# --------------------------------------
+
+# set default to not delete original unless second argument is -x
+
+delete_original_flag_set='N'
+if [ -n "$2"]; then # i.e. a second command line argument has been provided
+    case "$2" in
+        -x) delete_original_flag_set="Y";;
+        *) echo ":: Option $2 not recognised, existing"; exit 1;
+    esac
+fi
+
+
+
+# Main Logic
+# ----------
+
+# make sure user is happy to risk proceeding
 check_before_proceeding
 
 let counter=0
@@ -113,8 +128,10 @@ for FILE in *; do
             
             if [ $? -eq 0 ]; then
                 if [ -f "${MP4filename}" ]; then
-                    echo ":: deleting original ${FILE}"
-                    rm $FILE
+                    if [ $delete_original_flag_set = "Y" ]; then
+                        echo ":: deleting original ${FILE}"
+                        rm $FILE
+                    fi
                 fi
             fi
         fi

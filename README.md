@@ -7,17 +7,33 @@ And delete the original. Use at own risk!
 
 ## About
 
-*movshrink* is a shell script that acts as a wrapper around the `ffmpeg` command line tool. All the
-compression work is done by `ffmpeg`. The `movshrink` wrapper simply loops through any files it finds in the
-CWD with `.MOV` suffixes, passing them to `ffmpeg` with options configured such that a compressed `mp4`
-version of the original file will be created.  The wrapper will then delete the original `.MOV` file.
+*movshrink* is a shell script that acts as a wrapper around the `ffmpeg`[^1] command line tool. All the compression work is done by `ffmpeg`. The `movshrink` wrapper simply loops through any files it finds in the CWD with `.MOV` suffixes, passing them to `ffmpeg` with options configured such that a compressed `mp4` version of the original file will be created.  The wrapper will then delete the original `.MOV` file (if -x has been passed as the second command line argument)
 
-(ffmpeg)[https://ffmpeg.org/ffmpeg.html] is a universal media converter of [FFmpeg project](https://ffmpeg.org/)
+### License
+
+> Movshrink
+> Copyright (c) 2025 Peter Clifton
+> Movshrink is an Open Source project and it is licensed
+> under the GNU Public License v3 (GPLv3)
+> See the full [LICENSE](LICENSE) here
+
 
 ## Usage
 
--  `$ movshrink`: Attempt to compress any files with .MOV suffix in the CWD. Original files will be deleted.
--  `$ movshrink -t`: Attempt to compress files with .MOV suffix in the CWD, stop after 5 files have been compressed. Original files will be deleted.
+-  `$ movshrink`: Attempt to make compressed copies (mp4) of any files with .MOV suffix in the CWD
+-  `$ movshrink -u`: The same as above
+-  `$ movshrink -t`: The same as above but stop after 5 files have been compressed
+-  `$ movshrink -h`: print the help string
+-  `$ movshrink -u -x`: Attempt to make compressed copies (mp4) of any files with .MOV suffix in the CWD. Original (MOV) files will be *deleted*
+-  `$ movshrink -t -x`: Attempt to make compressed copies (mp4) of any files with .MOV suffix in the CWD. Original (MOV) files will be *deleted*. Stop after 5 iterations.
+
+## Caution
+
+Only this programme if all the following apply:
+
+a) You are happy to accept the risk of something going wrong that results in loss of your MOV files
+b) You understand that the quality of the compressed mp4 files will be lower than you original MOV files
+c) You have Reviewed the source code and PKGBUILD to make sure you understand and are happy with what they are going to do! 
 
 ## TODO
 
@@ -27,3 +43,7 @@ version of the original file will be created.  The wrapper will then delete the 
 - Improve handling of command line options
 - Add capability to tidy up and exit gracefully upon receiving CTRL-C interrupts
 - Change the result message to be more readable
+- Change default operation to not delete original (must be specified by option flag)
+
+[^1]: (ffmpeg)[https://ffmpeg.org/ffmpeg.html], is a universal media converter of the [FFmpeg project](https://ffmpeg.org/)
+
