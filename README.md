@@ -21,7 +21,7 @@ And delete the original. Use at own risk!
 -  `$ movshrink -u -x`: Attempt to make compressed copies (mp4) of any files with .MOV suffix in the CWD. Original (MOV) files will be *deleted*
 -  `$ movshrink -t -x`: Attempt to make compressed copies (mp4) of any files with .MOV suffix in the CWD. Original (MOV) files will be *deleted*. Stop after 5 iterations.
 
-## Caution
+## Caveats
 
 Only this programme if all the following apply:
 
