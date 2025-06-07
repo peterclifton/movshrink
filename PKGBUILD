@@ -7,6 +7,7 @@ arch=("any")
 depends=(
 'ffmpeg'
 'bash'
+'grep'
 )
 license=("GPL-3.0-or-later")
 source=("movshrink-one.sh" 
