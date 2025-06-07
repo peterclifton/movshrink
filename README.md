@@ -7,16 +7,10 @@ And delete the original. Use at own risk!
 
 ## About
 
-*movshrink* is a shell script that acts as a wrapper around the `ffmpeg`[^1] command line tool. All the compression work is done by `ffmpeg`. The `movshrink` wrapper simply loops through any files it finds in the CWD with `.MOV` suffixes, passing them to `ffmpeg` with options configured such that a compressed `mp4` version of the original file will be created.  The wrapper will then delete the original `.MOV` file (if -x has been passed as the second command line argument)
-
-### License
-
-> Movshrink
-> Copyright (c) 2025 Peter Clifton
-> Movshrink is an Open Source project and it is licensed
-> under the GNU Public License v3 (GPLv3)
-> See the full [LICENSE](LICENSE) here
-
+- `movshrink` is a shell script that acts as a wrapper around the `ffmpeg`[^1] command line tool.
+- All the compression work is done by `ffmpeg`.
+- The `movshrink` wrapper simply loops through any files it finds in the current working directory with `.MOV` suffixes, passing them to `ffmpeg` with options configured such that a compressed `mp4` version of the original file will be created.
+- The wrapper will then delete the original `.MOV` file (if -x has been passed as the second command line argument)
 
 ## Usage
 
@@ -31,11 +25,11 @@ And delete the original. Use at own risk!
 
 Only this programme if all the following apply:
 
-a) You are happy to accept the risk of something going wrong that results in loss of your MOV files
-b) You understand that the quality of the compressed mp4 files will be lower than you original MOV files
-c) You have Reviewed the source code and PKGBUILD to make sure you understand and are happy with what they are going to do! 
+- You are happy to accept the risk of something going wrong that results in loss of your MOV files
+- You understand that the quality of the compressed mp4 files will be lower than you original MOV files
+- You have Reviewed the source code and PKGBUILD to make sure you understand and are happy with what they are going to do! 
 
-## TODO
+## TODO List
 
 - Improve interface output appearance
 - Add capability to tidy up after itself
@@ -45,5 +39,13 @@ c) You have Reviewed the source code and PKGBUILD to make sure you understand an
 - Change the result message to be more readable
 - Change default operation to not delete original (must be specified by option flag)
 
-[^1]: (ffmpeg)[https://ffmpeg.org/ffmpeg.html], is a universal media converter of the [FFmpeg project](https://ffmpeg.org/)
+### License
+
+> movshrink
+> Copyright (c) 2025 Peter Clifton
+> Movshrink is an Open Source project and it is licensed
+> under the GNU Public License v3 (GPLv3)
+> See the full [LICENSE](LICENSE) here
+
+[^1]: [ffmpeg](https://ffmpeg.org/ffmpeg.html), is a universal media converter of the [FFmpeg project](https://ffmpeg.org/)
 
