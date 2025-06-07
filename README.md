@@ -42,8 +42,10 @@ Only this programme if all the following apply:
 ### License
 
 > movshrink
+>
 > Copyright (c) 2025 Peter Clifton
-> Movshrink is an Open Source project and it is licensed
+>
+> movshrink is an Open Source project and it is licensed
 > under the GNU Public License v3 (GPLv3)
 > See the full [LICENSE](LICENSE) here
 
