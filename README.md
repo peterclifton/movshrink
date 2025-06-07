@@ -12,14 +12,26 @@ And delete the original. Use at own risk!
 - The `movshrink` wrapper simply loops through any files it finds in the current working directory with `.MOV` suffixes, passing them to `ffmpeg` with options configured such that a compressed `mp4` version of the original file will be created.
 - The wrapper will then delete the original `.MOV` file (if -x has been passed as the second command line argument)
 
+## Install
+
+### Installing on Arch Linux as a package
+
+- `$ mkdir buildfolder`
+- `$ cd buildfolder`
+- `$ git clone https://github.com/peterclifton/movshrink.git`
+- Review **PKGBUILD** and all other files in *buildfolder* to make sure you understand and are happy with what they are going to do! (If not modify them until you are happy with them!)
+- `$sudo pacman -S --needed base-devel` (install base-devel if not already installed)
+- `$ makepkg -src`
+- `$ sudo pacman -U movshrink-<version>.pkg.tat.zst`
+
 ## Usage
 
--  `$ movshrink`: Attempt to make compressed copies (mp4) of any files with .MOV suffix in the CWD
+-  `$ movshrink`: Attempt to make compressed copies (mp4) of any files with .MOV suffix in the current working directory 
 -  `$ movshrink -u`: The same as above
 -  `$ movshrink -t`: The same as above but stop after 5 files have been compressed
 -  `$ movshrink -h`: print the help string
--  `$ movshrink -u -x`: Attempt to make compressed copies (mp4) of any files with .MOV suffix in the CWD. Original (MOV) files will be *deleted*
--  `$ movshrink -t -x`: Attempt to make compressed copies (mp4) of any files with .MOV suffix in the CWD. Original (MOV) files will be *deleted*. Stop after 5 iterations.
+-  `$ movshrink -u -x`: Attempt to make compressed copies (mp4) of any files with .MOV suffix in the current working directory. Original (MOV) files will be *deleted*
+-  `$ movshrink -t -x`: Attempt to make compressed copies (mp4) of any files with .MOV suffix in the current working directory. Original (MOV) files will be *deleted*. Stop after 5 iterations.
 
 ## Caveats
 
@@ -29,17 +41,7 @@ Only this programme if all the following apply:
 - You understand that the quality of the compressed mp4 files will be lower than you original MOV files
 - You have Reviewed the source code and PKGBUILD to make sure you understand and are happy with what they are going to do! 
 
-## TODO List
-
-- Improve interface output appearance
-- Add capability to tidy up after itself
-- Add arch build files
-- Improve handling of command line options
-- Add capability to tidy up and exit gracefully upon receiving CTRL-C interrupts
-- Change the result message to be more readable
-- Change default operation to not delete original (must be specified by option flag)
-
-### License
+## License
 
 > movshrink
 >
