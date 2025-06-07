@@ -78,7 +78,7 @@ if  [ $mode = "H" ]; then # help mode
     exit 0
 
 elif [ $mode = "U" ]; then # unlimited mode (default mode) 
-    ;
+    :
 
 elif [ $mode = "T" ]; then # limited mode (limit to 5 iterations
     limit_to_5="Y" 
@@ -90,7 +90,7 @@ fi
 # set default to not delete original unless second argument is -x
 
 delete_original_flag_set='N'
-if [ -n "$2"]; then # i.e. a second command line argument has been provided
+if [ -n "$2" ]; then # i.e. a second command line argument has been provided
     case "$2" in
         -x) delete_original_flag_set="Y";;
         *) echo ":: Option $2 not recognised, existing"; exit 1;
