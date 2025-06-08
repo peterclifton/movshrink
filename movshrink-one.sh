@@ -38,8 +38,16 @@ ffmpeg -nostdin -loglevel quiet -progress ${logfile} -i ${input_mov_file} -c:v l
 echo ""
 let grep_result=1
 while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
+
+    out_time_string=$(grep 'out_time=' ${logfile} | tail -n 1)
+    outsecs=$(echo $out_time_string | grep -Eo ':[0-9][0-9]\.' | grep -Eo '[0-9]{2}')
+    if [ -z "$outsecs" ]; then
+        outsecs="00";
+    fi
+    
     # https://stackoverflow.com/questions/11283625/overwrite-last-line-on-terminal
-    echo -e "\r\033[1A\033[0K:: $(grep 'out_time=' ${logfile} | tail -n 1) $(grep speed ${logfile} | tail -n 1)"
+    #echo -e "\r\033[1A\033[0K:: $(grep 'out_time=' ${logfile} | tail -n 1) $(grep speed ${logfile} | tail -n 1)"
+    echo -e "\r\033[1A\033[0K:: ${out_time_string} $(grep speed ${logfile} | tail -n 1) OUTSECS: ${outsecs}"
     grep 'progress=end' ${logfile} > /dev/null 2>&1
     let grep_result=$?
     sleep 2
@@ -52,3 +60,4 @@ rm $logfile
 exit $grep_result2
 
 
+# grep 'out_time=' .movshrinker1749393103.txt | tail -n 1 | grep -Eo ':[0-9][0-9]\.' | grep -Eo '[0-9]{2}'
