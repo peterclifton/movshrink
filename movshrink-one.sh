@@ -19,7 +19,6 @@ get_vid_length () {
     printf %.0f $vlength
 }
 
-
 out_of_x_num () {
     # expects all tree arguments are numbers
     # $1: numerator, $2: denominator, $3: multiple x
@@ -31,7 +30,7 @@ out_of_x_num () {
 out_of_x () {
     # $1: numerator, $2: denominator, $3: multiple x
     # all params should be numbers.
-    # If any are 0 will retun 0, if all non-0 will pass
+    # If any are 0 will return 0, if all non-0 will pass
     # them to out_of_x_num for calculation
     local result=0
     if [[ -z "$3" ]] || [[ "$3" -eq "0" ]]; then
@@ -46,6 +45,8 @@ out_of_x () {
 }
 
 strip_leading_zeros () {
+    # expects one argument
+    # will strip leading zeros from and return the result
     # mm=$(echo "$mg" | sed 's/^0*//')
     local stripped_result
     local stripped=$(echo "$1" | sed 's/^0*//')
@@ -54,12 +55,8 @@ strip_leading_zeros () {
     else
         stripped_result=$stripped
     fi
-
     echo -n $stripped_result
 }
-
-
-
 
 
 #--------------------------
@@ -79,12 +76,11 @@ MP4filename=$(echo ${input_mov_file} | sed -e 's/MOV$/mp4/')
 logfile=".movshrinker"$(date +%s)".txt"
 touch $logfile
 
-# https://stackoverflow.com/questions/47115191/when-i-run-ffmpeg-in-the-background-how-do-i-prevent-suspended-tty-output
-# https://stackoverflow.com/questions/8220098/how-to-redirect-the-output-of-an-application-in-background-to-dev-null
-
 VID_LENGTH=$(get_vid_length ${input_mov_file})
 echo ":: Video length (seconds): ${VID_LENGTH}"
 
+# https://stackoverflow.com/questions/47115191/when-i-run-ffmpeg-in-the-background-how-do-i-prevent-suspended-tty-output
+# https://stackoverflow.com/questions/8220098/how-to-redirect-the-output-of-an-application-in-background-to-dev-null
 ffmpeg -nostdin -loglevel quiet -progress ${logfile} -i ${input_mov_file} -c:v libx265 -crf 28 -preset medium -tag:v hvc1 -c:a aac -b:a 128k ${MP4filename} > /dev/null 2>&1 & XPID=$!
 
 echo ""
@@ -96,6 +92,8 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
         out_time_string="00";
     fi
 
+    # strip any leading zeros out to prevent numbers being interpreted as octals etc
+    # see https://www.reddit.com/r/bash/comments/wql7y1/arimetic_evaluation_value_too_great_for_base/
     out_time_string=$(strip_leading_zeros $out_time_string)
     
     outsecs=$(echo $out_time_string | grep -Eo ':[0-9][0-9]\.' | grep -Eo '[0-9]{2}')
@@ -103,14 +101,12 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
         outsecs="00";
     fi
 
+    # strip any leading zeros out to prevent numbers being interpreted as octals etc
     outsecs=$(strip_leading_zeros $outsecs)
     
     percent_comp=$(out_of_x $outsecs $VID_LENGTH 100)
-
     
     # https://stackoverflow.com/questions/11283625/overwrite-last-line-on-terminal
-    #echo -e "\r\033[1A\033[0K:: $(grep 'out_time=' ${logfile} | tail -n 1) $(grep speed ${logfile} | tail -n 1)"
-
     if [ "$DEBUG_MODE" = "YES" ]; then
         echo -e                 ":: ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp})"
     else
@@ -128,5 +124,3 @@ echo ":: Result: ${grep_result2}"
 rm $logfile
 exit $grep_result2
 
-
-# grep 'out_time=' .movshrinker1749393103.txt | tail -n 1 | grep -Eo ':[0-9][0-9]\.' | grep -Eo '[0-9]{2}'
