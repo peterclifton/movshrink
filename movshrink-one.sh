@@ -58,6 +58,20 @@ strip_leading_zeros () {
     echo -n $stripped_result
 }
 
+bar_chart () {
+    # expects one argument (number between 0 and 40)
+    # returns a string to represent progress  [### ... ]
+    local full_bar_points=40
+    local done_points=$1
+    local remaining_points=$(bc <<< "scale=0; $full_bar_points - $done_points")
+
+    local done_squares=$(printf "%${done_points}s" | tr ' ' '#')
+    local remainingSpc=$(printf "%${remaining_points}s")
+
+    echo -n "[${done_squares}${remainingSpc}]"
+}
+
+
 
 #--------------------------
 # Main logic
@@ -105,12 +119,16 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
     outsecs=$(strip_leading_zeros $outsecs)
     
     percent_comp=$(out_of_x $outsecs $VID_LENGTH 100)
+    barchar_comp=$(out_of_x $outsecs $VID_LENGTH 40)
+    progress=$(bar_chart $barchar_comp)
     
     # https://stackoverflow.com/questions/11283625/overwrite-last-line-on-terminal
     if [ "$DEBUG_MODE" = "YES" ]; then
-        echo -e                 ":: ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp})"
+        #echo -e                 ":: ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp})"
+        echo -e                 ":: ${progress} ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp}%)"
     else
-        echo -e "\r\033[1A\033[0K:: ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp})"
+        #echo -e "\r\033[1A\033[0K:: ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp})"
+        echo -e "\r\033[1A\033[0K:: ${progress} ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp}%)"
     fi
         
     grep 'progress=end' ${logfile} > /dev/null 2>&1
