@@ -117,36 +117,37 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
 
     outsecsMS=$(bc <<< "scale=0; ${out_time_ms} / 1000000")
 
-    #  echo $(bc <<< "scale=0; 23808000 / 1000000")
-
-
     
     # strip any leading zeros out to prevent numbers being interpreted as octals etc
     # see https://www.reddit.com/r/bash/comments/wql7y1/arimetic_evaluation_value_too_great_for_base/
     out_time_string=$(strip_leading_zeros $out_time_string)
-    
-    outsecs=$(echo $out_time_string | grep -Eo ':[0-9][0-9]\.' | grep -Eo '[0-9]{2}')
-    if [ -z "$outsecs" ]; then
-        outsecs="00";
-    fi
 
-    # strip any leading zeros out to prevent numbers being interpreted as octals etc
-    outsecs=$(strip_leading_zeros $outsecs)
+    # Using out_time_string to get outsecs (commented out as using out_time_ms instead)
+    #--------------------------------------------------------------------------------
+    #outsecs=$(echo $out_time_string | grep -Eo ':[0-9][0-9]\.' | grep -Eo '[0-9]{2}')
+    #if [ -z "$outsecs" ]; then
+    #    outsecs="00";
+    #fi
+    #
+    ## strip any leading zeros out to prevent numbers being interpreted as octals etc
+    #outsecs=$(strip_leading_zeros $outsecs)
+
+    outsecs=$outsecsMS
     
     percent_comp=$(out_of_x $outsecs $VID_LENGTH 100)
     barchar_comp=$(out_of_x $outsecs $VID_LENGTH 40)
     progress=$(bar_chart $barchar_comp)
 
-    padded_info=$(printf '%-40s' "${out_time_string} $(grep speed ${logfile} | tail -n 1)")
+    padded_info=$(printf '%-17s' "$(grep speed ${logfile} | tail -n 1)")
     
     # https://stackoverflow.com/questions/11283625/overwrite-last-line-on-terminal
     if [ "$DEBUG_MODE" = "YES" ]; then
         #echo -e                 ":: ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp})"
-        echo -e                 ":: ${progress} ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp}%)"
+        echo -e                 ":: ${padded_info} ${progress} (${percent_comp}%) ${outsecs}s)"
     else
         #echo -e "\r\033[1A\033[0K:: ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp})"
         #echo -e "\r\033[1A\033[0K:: ${progress} ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp}%)"
-        echo -e "\r\033[1A\033[0K:: ${padded_info} ${progress} ${outsecs} (${percent_comp}% ${outsecsMS})"
+        echo -e "\r\033[1A\033[0K:: ${padded_info} ${progress} (${percent_comp}%) ${outsecs}s"
     fi
         
     grep 'progress=end' ${logfile} > /dev/null 2>&1
