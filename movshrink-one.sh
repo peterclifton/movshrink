@@ -106,6 +106,20 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
         out_time_string="00";
     fi
 
+    out_time_ms=$(grep 'out_time_ms=' ${logfile} | tail -n 1 | grep -Eo [0-9]+$)
+    if [ -z "$out_time_ms" ]; then
+        out_time_ms="0";
+    fi
+
+    if [ "$out_time_ms" -lt "0" ]; then
+        out_time_ms="0";
+    fi
+
+    outsecsMS=$(bc <<< "scale=0; ${out_time_ms} / 1000000")
+
+    #  echo $(bc <<< "scale=0; 23808000 / 1000000")
+
+
     
     # strip any leading zeros out to prevent numbers being interpreted as octals etc
     # see https://www.reddit.com/r/bash/comments/wql7y1/arimetic_evaluation_value_too_great_for_base/
@@ -132,7 +146,7 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
     else
         #echo -e "\r\033[1A\033[0K:: ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp})"
         #echo -e "\r\033[1A\033[0K:: ${progress} ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp}%)"
-        echo -e "\r\033[1A\033[0K:: ${padded_info} ${progress} ${outsecs} (${percent_comp}%)"
+        echo -e "\r\033[1A\033[0K:: ${padded_info} ${progress} ${outsecs} (${percent_comp}% ${outsecsMS})"
     fi
         
     grep 'progress=end' ${logfile} > /dev/null 2>&1
