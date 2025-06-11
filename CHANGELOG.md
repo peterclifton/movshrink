@@ -16,7 +16,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [0.3.1] - 2025-06-11
 
-### Fixed typo in PKGBUILD version number
+### Fixed
+
+- Fix typo in PKGBUILD version number
 
 ## [0.3.0] - 2025-06-11
 
