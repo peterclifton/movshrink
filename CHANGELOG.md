@@ -11,7 +11,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Improve handling of command line options
 - Add capability to tidy up and exit gracefully upon receiving CTRL-C interrupts
 - Change the result message to be more readable
+- Make progress bar more robust
 
+## [0.3.0] - 2025-06-11
+
+### Added
+
+- Report percentage progress when compressing video
+- Progress bar
+
+### Changed
+
+- Improve appearance of information provided to user
+
+### Fixed
+
+- Fix typos in README
+- Fix number of iterations when -t option selected
 
 ## [0.2.0] - 2025-06-07
 

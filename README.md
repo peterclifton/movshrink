@@ -19,6 +19,7 @@ And delete the original. Use at own risk!
 - `$ mkdir buildfolder`
 - `$ cd buildfolder`
 - `$ git clone https://github.com/peterclifton/movshrink.git`
+- `$ cd movshrink`
 - Review **PKGBUILD** and all other files in *buildfolder* to make sure you understand and are happy with what they are going to do! (If not modify them until you are happy with them!)
 - `$sudo pacman -S --needed base-devel` (install base-devel if not already installed)
 - `$ makepkg -src`

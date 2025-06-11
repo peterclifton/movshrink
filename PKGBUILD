@@ -1,6 +1,6 @@
 pkgname="movshrink"
-pkgver="0.2.0"
-pkgrel="2"
+pkgver="0.0.0"
+pkgrel="1"
 pkgdesc="Wrapper shell script that uses ffmpeg to compress MOV files"
 #arch=("x86_64")
 arch=("any")

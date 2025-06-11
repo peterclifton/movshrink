@@ -14,10 +14,16 @@ numbers () {
 
 help () {
     cat <<EOF
-:: This program will attempt to compress any .mov
+:: This program will attempt to compress any .MOV
    file in the current working directory.
    And delete the original.
    Use at own risk!
+
+:: Usage 
+   'movshrink -t'    - make compressed copies of 5 MOV files
+   'movshrink -t -x' - do that and DELETE the originals
+   'movshrink -u'    - make compressed copies of all MOV files in CWD
+   'movshrink -u -x' - do that and DELETE the originals
 EOF
 }
 
@@ -109,7 +115,7 @@ let counter=0
 for FILE in *; do
 
     if [ $mode = "T" ]; then
-        if [ $counter -gt 5 ]; then
+        if [ $counter -gt 4 ]; then
             echo ":: completed 5 iterations, exiting as planned..."
             exit 0
         fi
