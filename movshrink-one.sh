@@ -66,7 +66,10 @@ bar_chart () {
     local remaining_points=$(bc <<< "scale=0; $full_bar_points - $done_points")
 
     local done_squares=$(printf "%${done_points}s" | tr ' ' '#')
-    local remainingSpc=$(printf "%${remaining_points}s")
+
+    # Uncomment one of the below two lines
+    #local remainingSpc=$(printf "%${remaining_points}s") # fill with whitespace
+    local remainingSpc=$(printf "%${remaining_points}s" | tr ' ' '-') # fill with -
 
     echo -n "[${done_squares}${remainingSpc}]"
 }
