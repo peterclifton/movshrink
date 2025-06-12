@@ -98,6 +98,7 @@ echo ":: Video length (seconds): ${VID_LENGTH}"
 ffmpeg -nostdin -loglevel quiet -progress ${logfile} -i ${input_mov_file} -c:v libx265 -crf 28 -preset medium -tag:v hvc1 -c:a aac -b:a 128k ${MP4filename} > /dev/null 2>&1 & XPID=$!
 
 echo ""
+outsecs="0" # set initial seconds of progress to 0
 let grep_result=1
 while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
 
@@ -106,6 +107,9 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
         out_time_string="00";
     fi
 
+    # out_time_ms will be set to 0 if the regex returns empty
+    # or returns a value less than 0
+    # out_time_ms is in microseconds
     out_time_ms=$(grep 'out_time_ms=' ${logfile} | tail -n 1 | grep -Eo [0-9]+$)
     if [ -z "$out_time_ms" ]; then
         out_time_ms="0";
@@ -115,6 +119,7 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
         out_time_ms="0";
     fi
 
+    # convert from microseconds to seconds (whole seconds)
     outsecsMS=$(bc <<< "scale=0; ${out_time_ms} / 1000000")
 
     
@@ -132,7 +137,14 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
     ## strip any leading zeros out to prevent numbers being interpreted as octals etc
     #outsecs=$(strip_leading_zeros $outsecs)
 
-    outsecs=$outsecsMS
+    # set outsecs to outsecsMS if outsecMS is greater than outsecs
+    # this has the effect of ratcheting outsecs
+    # so the count won't fall to 0 in the case of a loss
+    # of input data
+    if [ "$outsecsMS" -gt "$outsecs" ]; then
+        outsecs=$outsecsMS
+    fi
+    
     
     percent_comp=$(out_of_x $outsecs $VID_LENGTH 100)
     barchar_comp=$(out_of_x $outsecs $VID_LENGTH 40)
