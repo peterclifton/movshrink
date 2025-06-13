@@ -182,8 +182,11 @@ let grep_result2=$?
 # if progress=end was spotted do final update of the progress bar and data to reflect full completion
 if [ "$grep_result2" -eq "0" ]; then
     echo -e "\r\033[1A\033[0K:: ${padded_info} $(full_bar_chart) (100%) ${VID_LENGTH}s"
+    echo ":: Result: GOOD"
+else
+    echo ":: Result: FAIL"
 fi
-echo ":: Result: ${grep_result2}"
+#echo ":: Result: ${grep_result2}"
 
 rm $logfile
 exit $grep_result2
