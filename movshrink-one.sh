@@ -12,6 +12,7 @@ DEBUG_MODE="no"
 #--------------------------
 
 get_vid_length () {
+    # returns video length in whole seconds
     # usage: get_vid_length somevideo.MOV
     # e.g: ffprobe -i somevideo.MOV -show_entries format=duration -v quiet -of csv="p=0"
     local vlength=$(ffprobe -i $1 -show_entries format=duration -v quiet -of csv="p=0")
@@ -74,6 +75,12 @@ bar_chart () {
     echo -n "[${done_squares}${remainingSpc}]"
 }
 
+full_bar_chart () {
+    # return 100% progress bar
+    echo -n $(bar_chart 40)
+}
+
+
 
 
 #--------------------------
@@ -93,6 +100,7 @@ MP4filename=$(echo ${input_mov_file} | sed -e 's/MOV$/mp4/')
 logfile=".movshrinker"$(date +%s)".txt"
 touch $logfile
 
+# Get the video length in seconds
 VID_LENGTH=$(get_vid_length ${input_mov_file})
 echo ":: Video length (seconds): ${VID_LENGTH}"
 
@@ -157,8 +165,7 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
     
     # https://stackoverflow.com/questions/11283625/overwrite-last-line-on-terminal
     if [ "$DEBUG_MODE" = "YES" ]; then
-        #echo -e                 ":: ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp})"
-        echo -e                 ":: ${padded_info} ${progress} (${percent_comp}%) ${outsecs}s)"
+        echo -e                 ":: ${padded_info} ${progress} (${percent_comp}%) ${outsecs}s"
     else
         #echo -e "\r\033[1A\033[0K:: ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp})"
         #echo -e "\r\033[1A\033[0K:: ${progress} ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp}%)"
@@ -172,7 +179,12 @@ done
 
 grep 'progress=end' ${logfile} > /dev/null 2>&1
 let grep_result2=$?
+# if progress=end was spotted do final update of the progress bar and data to reflect full completion
+if [ "$grep_result2" -eq "0" ]; then
+    echo -e "\r\033[1A\033[0K:: ${padded_info} $(full_bar_chart) (100%) ${VID_LENGTH}s"
+fi
 echo ":: Result: ${grep_result2}"
+
 rm $logfile
 exit $grep_result2
 
