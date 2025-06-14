@@ -31,11 +31,11 @@ let response='N'
 get_response () {
     # offer for user to exit before proceeding
     cat <<EOF
-:: This program will attempt to compress any .mov file in the current working directory.
+:: This program will attempt to compress any .mov file in the current working dir.
    And delete the original (if -x was given as the second command line argument)
    Use at own risk!
 
-   Current working directory is: ${PWD}
+   Current working dir is: ${PWD}
 
    Enter Y to proceed or just press ENTER to exit safely
 EOF

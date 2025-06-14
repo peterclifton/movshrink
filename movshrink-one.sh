@@ -80,9 +80,6 @@ full_bar_chart () {
     echo -n $(bar_chart 40)
 }
 
-
-
-
 #--------------------------
 # Main logic
 #--------------------------
@@ -97,8 +94,25 @@ fi
 input_mov_file=$1
 MP4filename=$(echo ${input_mov_file} | sed -e 's/MOV$/mp4/')
 
-logfile=".movshrinker"$(date +%s)".txt"
-touch $logfile
+#logfile=".movshrinker"$(date +%s)".txt"
+logfilename="movshrinker"$(date +%s)".txt"
+
+# First attempt to create the log file in /tmp
+touch /tmp/${logfilename} > /dev/null 2&>1
+touch_tmp_result=$?
+
+# check if we were able to create log file in /tmp
+# if so set value of logfile accordingly
+# if we were not able to so so we
+# fall back on creating the logfile as a hidden
+# file in the in the CWD 
+if [ "$touch_tmp_result" -eq "0" ]; then # i.e. temp file has been created in /tmp
+    logfile="/tmp/${logfilename}"
+else # i.e. were not able to create in /tmp, so will create in CWD
+    logfilename=".${logfilename}"
+    logfile=$logfilename
+    touch $logfile
+fi
 
 # Get the video length in seconds
 VID_LENGTH=$(get_vid_length ${input_mov_file})
@@ -158,7 +172,6 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
         outsecs=$outsecsMS
     fi
     
-    
     percent_comp=$(out_of_x $outsecs $VID_LENGTH 100)
     barchar_comp=$(out_of_x $outsecs $VID_LENGTH 40)
     progress=$(bar_chart $barchar_comp)
@@ -169,7 +182,6 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
     if [ "$DEBUG_MODE" = "YES" ]; then
         echo -e                 ":: ${padded_info} ${progress} (${percent_comp}%) ${outsecs}s"
     else
-        #echo -e "\r\033[1A\033[0K:: ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp})"
         #echo -e "\r\033[1A\033[0K:: ${progress} ${out_time_string} $(grep speed ${logfile} | tail -n 1) ${outsecs} (${percent_comp}%)"
         echo -e "\r\033[1A\033[0K:: ${padded_info} ${progress} (${percent_comp}%) ${outsecs}s"
     fi
@@ -188,7 +200,6 @@ if [ "$grep_result2" -eq "0" ]; then
 else
     echo ":: Result: FAIL"
 fi
-#echo ":: Result: ${grep_result2}"
 
 rm $logfile
 exit $grep_result2
