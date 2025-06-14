@@ -121,7 +121,9 @@ while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
     # out_time_ms will be set to 0 if the regex returns empty
     # or returns a value less than 0
     # out_time_ms is in microseconds
-    out_time_ms=$(grep 'out_time_ms=' ${logfile} | tail -n 1 | grep -Eo [0-9]+$)
+    #out_time_ms=$(grep 'out_time_ms=' ${logfile} | tail -n 1 | grep -Eo [0-9]+$)
+    # grep -E =[0-9]+$ should ensure negative numbers are ignored e.g. =-123 etc
+    out_time_ms=$(grep 'out_time_ms=' ${logfile} | tail -n 1 | grep -Eo =[0-9]+$ | grep -Eo [0-9]+)
     if [ -z "$out_time_ms" ]; then
         out_time_ms="0";
     fi
