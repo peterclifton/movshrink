@@ -1,6 +1,20 @@
 #!/bin/bash
 # usage example: movshrink -t
 
+
+# trap ctrl-c and call ctrl_c()
+trap ctrl_c INT
+
+ctrl_c() {
+    # this is the outer trap function
+    # i.e. if Ctrl-C was pressed while
+    # movshrink-one was running then its trap
+    # will run first, then this one...
+    echo ":: exiting movshrink..."
+    exit 1
+}
+
+
 # --------------------
 # Functions
 # -------------------

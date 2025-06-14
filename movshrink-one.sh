@@ -1,5 +1,25 @@
 #!/bin/bash
 
+#!/bin/bash
+
+
+# https://rimuhosting.com/knowledgebase/linux/misc/trapping-ctrl-c-in-bash
+# trap ctrl-c and call ctrl_c()
+trap ctrl_c INT
+
+ctrl_c() {
+    # Tidies up by deleting the incomplete compressed mp4 file
+    # sends SIGINT to the ffmpeg child process
+    # then exits
+    echo ":: CTRL-C SIGINT detected..."
+    echo ":: terminating ffmpeg process ${XPID}"
+    kill ${XPID}
+    echo ":: deleting incomplete mp4 file: ${MP4filename}"
+    rm ${MP4filename}
+    exit 1
+}
+
+
 #--------------------------
 # Global vars
 #--------------------------
@@ -125,7 +145,8 @@ ffmpeg -nostdin -loglevel quiet -progress ${logfile} -i ${input_mov_file} -c:v l
 echo ""
 outsecs="0" # set initial seconds of progress to 0
 let grep_result=1
-while ((grep_result>0)) && [ -e /proc/$XPID ]  ; do
+while ((grep_result>0)) && [ -e /proc/$XPID ] ; do
+
 
     out_time_string=$(grep 'out_time=' ${logfile} | tail -n 1)
     if [ -z "$out_time_string" ]; then
