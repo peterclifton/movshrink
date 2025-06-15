@@ -7,7 +7,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 - Improve interface output appearance
 - Improve handling of command line options
+
+## [0.5.0] - 2025-06-15
+
+### Added
+
 - Add capability to tidy up and exit gracefully upon receiving CTRL-C interrupts
+
+### Changed
+
+- Minor edits to README
 
 ## [0.4.0] - 2025-06-14
 
@@ -21,7 +30,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 - Fix logic that gets current progress (so that negative values are ignored)
 - Fix typos in documentation
-
 
 ## [0.3.1] - 2025-06-11
 
