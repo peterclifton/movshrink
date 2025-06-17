@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Improve interface output appearance
 - Improve handling of command line options
 
+## [0.6.0] - 2025-06-17
+
+### Changed
+
+- Make command line option handling more robust
+
 ## [0.5.0] - 2025-06-15
 
 ### Added

@@ -76,47 +76,68 @@ check_before_proceeding () {
 }
 
 
-# Deal with first command line argument
+# Deal with first command line arguments
 # -------------------------------------
 
-mode="U"
+mode="unset"
 limit_to_5="n"
-
-# expects -h, -u, -t as options in $1 or else no options
-
-if [ -n "$1" ]; then  # i.e. an command line argument has been provided
-    case "$1" in
-        -h) mode="H" ;; # will just print a help string
-        -t) mode="T" ;; # limit to 5 iterations
-        -u) mode="U" ;; # loop through all MOV files found in CWD
-        *) echo ":: Option $1 not recognised, exiting"; exit 1;
-    esac
-fi
-
-if  [ $mode = "H" ]; then # help mode
-    help
-    exit 0
-
-elif [ $mode = "U" ]; then # unlimited mode (default mode) 
-    :
-
-elif [ $mode = "T" ]; then # limited mode (limit to 5 iterations
-    limit_to_5="Y" 
-fi
-
-# Deal with second command line argument
-# --------------------------------------
-
-# set default to not delete original unless second argument is -x
-
 delete_original_flag_set='N'
-if [ -n "$2" ]; then # i.e. a second command line argument has been provided
-    case "$2" in
-        -x) delete_original_flag_set="Y";;
-        *) echo ":: Option $2 not recognised, existing"; exit 1;
-    esac
+
+# https://labex.io/tutorials/shell-bash-getopt-391993
+## Parse command-line options
+OPTS=$(getopt -o htux -n 'movshrink' -- "$@")
+
+if [ $? -ne 0 ]; then
+  echo "Failed to parse options" >&2
+  exit 1
 fi
 
+## Reset the positional parameters to the parsed options
+eval set -- "$OPTS"
+
+# Process the options
+while true; do
+    case "$1" in
+        -h)
+            mode="H"
+            help
+            exit 0
+            shift
+            ;;
+        -t)
+            if [ $mode = "U" ]; then
+                echo ":: -t and -u options can not be used together, exiting..."
+                exit 1
+            fi
+            mode="T"
+            limit_to_5="Y"
+            shift
+            ;;
+        -u)
+            if [ $mode = "T" ]; then
+                echo ":: -t and -u options can not be used together, exiting..."
+                exit 1
+            fi
+            mode="U"
+            shift
+            ;;
+        -x)
+            delete_original_flag_set="Y"
+            shift
+            ;;
+        --)
+            shift
+            break;;
+        *)
+            echo ":: Unrecognised arguments, exiting..."
+            exit 1
+            ;;
+    esac
+done
+
+if [ $mode = "unset" ]; then
+    mode="U"
+fi
 
 
 # Main Logic
