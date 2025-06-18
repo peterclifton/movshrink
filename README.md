@@ -31,14 +31,31 @@ The following options are available:
 
 ### Examples
 
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Example  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Description |
-| --------------- | ----------- |
-|`$ movshrink`    | Make compressed copies (mp4) of files with `.MOV` suffix in the current working directory| 
-|`$ movshrink -u` | Same as above|
-|`$ movshrink -t` | Same as above but stop after 5 files have been compressed|
-|`$ movshrink -ux`| Make compressed copies (mp4) files with `.MOV` suffix in the current working dir.<br> Original (MOV) files will be **deleted**|
-|`$ movshrink -tx`| Same as above, but stops after 5 files have been compressed|
-|`$ movshrink -h` | print help string|
+```sh
+$ movshrink
+# Make compressed copies (mp4) of files with `.MOV` suffix in the current working directory
+```      
+```sh
+$ movshrink -u
+# Same as above
+```
+```sh
+$ movshrink -t
+# Same as above but stop after 5 files have been compressed
+```
+```sh
+$ movshrink -ux
+# Make compressed copies (mp4) files with `.MOV` suffix in the current working dir
+# Original (MOV) files will be deleted
+```
+```sh
+$ movshrink -tx
+Same as above, but stops after 5 files have been compressed
+```
+```sh
+$ movshrink -h
+# print help string
+```
 
 ### Caveats
 
@@ -57,7 +74,7 @@ Only this programme if all the following apply:
 - `$ git clone https://github.com/peterclifton/movshrink.git`
 - `$ cd movshrink`
 - Review [PKGBUILD](PKGBUILD) and all other files in *buildfolder* to make sure you understand and are happy with what they are going to do! (If not modify them until you are happy with them!)
-- `$sudo pacman -S --needed base-devel` (install base-devel if not already installed)
+- `$ sudo pacman -S --needed base-devel` (install base-devel if not already installed)`
 - `$ makepkg -src`
 - `$ sudo pacman -U movshrink-<version>.pkg.tat.zst`
 
