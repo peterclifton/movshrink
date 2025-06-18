@@ -31,7 +31,7 @@ The following options are available:
 
 ### Examples
 
-| Example         | Description |
+| Example &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Description |
 | --------------- | ----------- |
 |`$ movshrink`    | Make compressed copies (mp4) of files with `.MOV` suffix in the current working directory| 
 |`$ movshrink -u` | Same as above|
