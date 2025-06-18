@@ -9,8 +9,44 @@ And delete the original. Use at own risk!
 
 - `movshrink` is a shell script that acts as a wrapper around the `ffmpeg`[^1] command line tool.
 - All the compression work is done by `ffmpeg`.
-- The `movshrink` wrapper simply loops through any files it finds in the current working dir with `.MOV` suffixes, passing them to `ffmpeg` with options configured such that a compressed `mp4` version of the original file will be created.
-- The wrapper will then delete the original `.MOV` file (if -x has been passed as the second command line argument)
+
+## Usage
+
+### Synopsis
+
+*movshrink [-htux]*
+
+### Description
+
+The `movshrink` utility loops through any files it finds in the current working dir with `.MOV` suffixes, passing them to `ffmpeg` with options configured such that a compressed `mp4` version of the original file will be created. The original `.MOV` file will then be deleted (if -x has been passed as a command line option).
+
+The following options are available:
+
+*-h* Print a brief help message
+
+*-t* Stop after five iterations
+
+*-u* Keep going until have looped through all MOV files in the current directory (or until a Ctrl-C interrupt)
+
+*-x* After each compression, delete the original MOV file
+
+### Examples
+
+-  `$ movshrink`: Make compressed copies (mp4) of any files with `.MOV` suffix in the current working directory 
+-  `$ movshrink -u`: Same as above
+-  `$ movshrink -t`: Same as above but stop after 5 files have been compressed
+-  `$ movshrink -ux`: Make compressed copies (mp4) of any files with `.MOV` suffix in the current working dir.
+    Original (MOV) files will be *deleted*
+-  `$ movshrink -tx`: Same as above, but stops after 5 files have been compressed
+-  `$ movshrink -h`: print help string
+
+### Caveats
+
+Only this programme if all the following apply:
+
+- You are happy to accept the risk of something going wrong that could result in the loss of your MOV files
+- You understand that the quality of the compressed mp4 files will be lower than you original MOV files
+- You have reviewed the source code and PKGBUILD to make sure you understand and are happy with what they are going to do! 
 
 ## Install
 
@@ -33,22 +69,6 @@ And delete the original. Use at own risk!
 - Rename them to _movshrink-one_ and _movshrink_
 - Make them executable
 
-## Usage
-
--  `$ movshrink`: Make compressed copies (mp4) of any files with `.MOV` suffix in the current working directory 
--  `$ movshrink -u`: Same as above
--  `$ movshrink -t`: Same as above but stop after 5 files have been compressed
--  `$ movshrink -h`: print help string
--  `$ movshrink -u -x`: Make compressed copies (mp4) of any files with `.MOV` suffix in the current working dir. Original (MOV) files will be *deleted*
--  `$ movshrink -t -x`: Make compressed copies (mp4) of any files with `.MOV` suffix in the current working dir. Original (MOV) files will be *deleted*. Stops after 5 iterations.
-
-## Caveats
-
-Only this programme if all the following apply:
-
-- You are happy to accept the risk of something going wrong that could result in the loss of your MOV files
-- You understand that the quality of the compressed mp4 files will be lower than you original MOV files
-- You have reviewed the source code and PKGBUILD to make sure you understand and are happy with what they are going to do! 
 
 ## License
 
