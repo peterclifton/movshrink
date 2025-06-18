@@ -14,7 +14,7 @@ And delete the original. Use at own risk!
 
 ### Synopsis
 
-*movshrink [-htux]*
+**`movshrink [-htux]`**
 
 ### Description
 
@@ -22,23 +22,23 @@ The `movshrink` utility loops through any files it finds in the current working 
 
 The following options are available:
 
-*-h* Print a brief help message
-
-*-t* Stop after five iterations
-
-*-u* Keep going until have looped through all MOV files in the current directory (or until a Ctrl-C interrupt)
-
-*-x* After each compression, delete the original MOV file
+| Option | Description |
+| ------ | ----------- |
+|**-h**   | Print a brief help message |
+|**-t**   | Stop after five iterations |
+|**-u**   | Keep going until have looped through all MOV files in the current directory (or until a Ctrl-C interrupt)|
+|**-x**   | After each compression, delete the original MOV file |
 
 ### Examples
 
--  `$ movshrink`: Make compressed copies (mp4) of any files with `.MOV` suffix in the current working directory 
--  `$ movshrink -u`: Same as above
--  `$ movshrink -t`: Same as above but stop after 5 files have been compressed
--  `$ movshrink -ux`: Make compressed copies (mp4) of any files with `.MOV` suffix in the current working dir.
-    Original (MOV) files will be *deleted*
--  `$ movshrink -tx`: Same as above, but stops after 5 files have been compressed
--  `$ movshrink -h`: print help string
+| Example         | Description |
+| --------------- | ----------- |
+|`$ movshrink`    | Make compressed copies (mp4) of files with `.MOV` suffix in the current working directory| 
+|`$ movshrink -u` | Same as above|
+|`$ movshrink -t` | Same as above but stop after 5 files have been compressed|
+|`$ movshrink -ux`| Make compressed copies (mp4) files with `.MOV` suffix in the current working dir.<br> Original (MOV) files will be **deleted**|
+|`$ movshrink -tx`| Same as above, but stops after 5 files have been compressed|
+|`$ movshrink -h` | print help string|
 
 ### Caveats
 
@@ -63,7 +63,7 @@ Only this programme if all the following apply:
 
 ### Method 2
 
-- Make sure your system has all the dependencies installed (e.g. such as `ffmpeg` and any others listed under _depends_ in [PKGBUILD](PKGBUILD)
+- Make sure your system has all the dependencies installed (e.g. such as `ffmpeg` and any others listed under _depends_ in [PKGBUILD](PKGBUILD))
 - Review _movshrink-one.sh_ and _movshrink.sh_ to make sure you understand and are happy with what they are doing! (If not modify them until you are happy with them!)
 - Download them and place them in a directory in your [PATH](https://wiki.archlinux.org/title/environment_variables#Globally) (you might have a [~/bin](https://stackoverflow.com/questions/20054538/add-a-bash-script-to-path) for example)
 - Rename them to _movshrink-one_ and _movshrink_
