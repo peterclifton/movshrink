@@ -50,7 +50,7 @@ $ movshrink -ux
 ```
 ```sh
 $ movshrink -tx
-Same as above, but stops after 5 files have been compressed
+# Same as above, but stops after 5 files have been compressed
 ```
 ```sh
 $ movshrink -h
